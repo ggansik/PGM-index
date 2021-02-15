@@ -34,7 +34,7 @@ namespace pgm::internal {
 template<typename T>
 using LargeSigned = typename std::conditional_t<std::is_floating_point_v<T>,
                                                 long double,
-                                                std::conditional_t<(sizeof(T) < 8), int64_t, __int128>>;
+                                                std::conditional_t<(sizeof(T) < 8), int64_t, __int64>>;
 
 template<typename X, typename Y>
 class OptimalPiecewiseLinearModel {

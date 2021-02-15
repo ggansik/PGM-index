@@ -19,6 +19,12 @@ int main() {
     data.push_back(42);
     std::sort(data.begin(), data.end());
 
+    // std::cout << data[909187] << std::endl;
+    /*
+    for(auto i = 0;i < data.size();i++){
+        if
+    }
+     */
     // Construct the PGM-index
     const int epsilon = 128; // space-time trade-off parameter
     pgm::PGMIndex<int, epsilon> index(data);
