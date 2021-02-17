@@ -73,10 +73,10 @@ protected:
     K first_key;                        ///< The smallest element.
     std::vector<Segment> segments;      ///< The segments composing the index.
     std::vector<size_t> levels_sizes;   ///< The number of segment in each level, in reverse order.
-    std::vector<size_t> levels_offsets; ///< The starting position of each level in segments[], in reverse order.
+    std::vector<size_t> levels_offsets; ///< The starting position of each level in segments[], in reverse order. 레벨 구분 없이 세그먼트가 segments 벡터에 들어가 있음.
 
     template<typename RandomIt>
-    static void build(RandomIt first, RandomIt last,
+    static void build(RandomIt first, RandomIt last, //재귀적 호출을 위해서
                       size_t epsilon, size_t epsilon_recursive,
                       std::vector<Segment> &segments,
                       std::vector<size_t> &levels_sizes,
@@ -174,6 +174,7 @@ public:
      * Constructs the index on the given sorted vector.
      * @param data the vector of keys to be indexed, must be sorted
      */
+     //생성자, explicit 키워드는 명시적 생성자만 호출가능하도록 함
     explicit PGMIndex(const std::vector<K> &data) : PGMIndex(data.begin(), data.end()) {}
 
     /**
@@ -196,9 +197,9 @@ public:
      * @return a struct with the approximate position and bounds of the range
      */
     ApproxPos search(const K &key) const {
-        auto k = std::max(first_key, key);
-        auto it = segment_for_key(k);
-        auto pos = std::min<size_t>((*it)(k), std::next(it)->intercept);
+        auto k = std::max(first_key, key); //이건 왜함
+        auto it = segment_for_key(k); //key를 포함하는 세그먼트를 찾아서
+        auto pos = std::min<size_t>((*it)(k), std::next(it)->intercept); //f(k)나 해당 segment의 intercept = 아마도 다음 segment의 시작 key?
         auto lo = PGM_SUB_EPS(pos, Epsilon);
         auto hi = PGM_ADD_EPS(pos, Epsilon, n);
         return {pos, lo, hi};
