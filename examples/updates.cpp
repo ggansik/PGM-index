@@ -14,6 +14,7 @@
 
 int main() {
     // Generate some random key-value pairs to bulk-load the Dynamic PGM-index
+    // update는 real data가 아님?
     std::vector<std::pair<uint32_t, uint32_t>> data(1000000);
     std::generate(data.begin(), data.end(), [] { return std::make_pair(std::rand(), std::rand()); });
     std::sort(data.begin(), data.end());

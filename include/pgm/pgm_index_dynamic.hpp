@@ -52,6 +52,7 @@ class DynamicPGMIndex {
     static_assert(fully_allocated_levels > min_level);
     static_assert(2 * PGMType::epsilon_value < 1ul << MinIndexedLevel);
 
+    //conditional_t<true, trueType, falseType> 해서 true 여부에 따라 정해지는  type이 다름
     using Item = std::conditional_t<std::is_pointer_v<V>, ItemA, ItemB>;
     using Level = std::vector<Item, DefaultInitAllocator<Item>>;
 
@@ -143,8 +144,9 @@ class DynamicPGMIndex {
             pgm(target) = PGMType(level(target).begin(), level(target).end());
     }
 
+    //삽입하는 부분
     void insert(const Item &new_item) {
-        auto insertion_point = std::lower_bound(levels[0].begin(), levels[0].end(), new_item);
+        auto insertion_point = std::lower_bound(levels[0].begin(), levels[0].end(), new_item); //new_item이 삽입
         if (insertion_point != levels[0].end() && *insertion_point == new_item) {
             *insertion_point = new_item;
             return;

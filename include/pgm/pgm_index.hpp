@@ -82,18 +82,18 @@ protected:
                       std::vector<size_t> &levels_sizes,
                       std::vector<size_t> &levels_offsets) {
         auto n = std::distance(first, last);
-        if (n == 0)
+        if (n == 0) //data 수가 0이면
             return;
 
         levels_offsets.push_back(0);
-        segments.reserve(n / (epsilon * epsilon));
+        segments.reserve(n / (epsilon * epsilon)); //최대 세그먼트 수?
 
         auto ignore_last = *std::prev(last) == std::numeric_limits<K>::max(); // max is reserved for padding
         auto last_n = n - ignore_last;
         last -= ignore_last;
 
         auto build_level = [&](auto epsilon, auto in_fun, auto out_fun) {
-            auto n_segments = internal::make_segmentation_par(last_n, epsilon, in_fun, out_fun);
+            auto n_segments = internal::make_segmentation_par(last_n, epsilon, in_fun, out_fun); //parallel하게 만듦
             if (segments.back().slope == 0) {
                 // Here we need to ensure that keys > *(last-1) are approximated to a position == prev_level_size
                 segments.emplace_back(*std::prev(last) + 1, 0, last_n);
@@ -182,6 +182,7 @@ public:
      * @param first, last the range containing the sorted keys to be indexed
      */
     template<typename RandomIt>
+    //생성자
     PGMIndex(RandomIt first, RandomIt last)
         : n(std::distance(first, last)),
           first_key(n ? *first : 0),
@@ -264,6 +265,7 @@ struct PGMIndex<K, Epsilon, EpsilonRecursive, Floating>::Segment {
      * @param k the key whose position must be approximated
      * @return the approximate position of the specified key
      */
+     //segment(key)이렇게 사용할 수 있도록 만들어 주는 operator를 정의하는듯
     inline size_t operator()(const K &k) const {
         auto pos = int64_t(slope * (k - key)) + intercept;
         return pos > 0 ? size_t(pos) : 0ull;
