@@ -32,7 +32,7 @@ endif ()
 include_directories(include)
 
 # PGM-index library
-add_library(pgmindexlib INTERFACE)
+add_library(pgmindexlib INTERFACE include/pgm/myPGM.h include/pgm/myPGM.hpp)
 target_include_directories(pgmindexlib INTERFACE include/)
 
 if (${BUILD_PGM_TUNER})

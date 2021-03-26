@@ -349,6 +349,7 @@ size_t make_segmentation_par(size_t n, size_t epsilon, Fin in, Fout out) {
     return c;
 }
 
+
 template<typename RandomIt>
 auto make_segmentation(RandomIt first, RandomIt last, size_t epsilon) {
     using key_type = typename RandomIt::value_type;
@@ -357,7 +358,7 @@ auto make_segmentation(RandomIt first, RandomIt last, size_t epsilon) {
 
     size_t n = std::distance(first, last);
     std::vector<canonical_segment> out;
-    out.reserve(epsilon > 0 ? n / (epsilon * epsilon) : n / 16);
+    out.reserve(epsilon > 0 ? n / (epsilon * epsilon) : n / 16); //epsilon이 0보다 크면 n/eps*eps 0이면 n/16
 
     auto in_fun = [first](auto i) { return pair_type(first[i], i); };
     auto out_fun = [&out](const auto &cs) { out.push_back(cs); };

@@ -5,7 +5,7 @@ set(examples
         updates)
 
 foreach (example ${examples})
-    add_executable(example_${example} ${example}.cpp)
+    add_executable(example_${example} ${example}.cpp myPGMtest.cpp)
     target_link_libraries(example_${example} pgmindexlib)
 endforeach (example)
 
