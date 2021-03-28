@@ -155,7 +155,35 @@ public:
               levels_offsets() {
         build(first, last, Epsilon, EpsilonRecursive, segments, levels_sizes, levels_offsets);
     }
+    /**
+     * 현식수정
+     */
+    void insert(const K &key){
+        //이 모든게 가능하기 위한 전제? array가 segment단위로 잘려서 linked list 형태로 저장되어야 함. 이로 인한 오버헤드 생각? 아 근데 버퍼에 저장되면 노상관인데?
+        //segment마다 first Key, slope, intercept를 저장하고 있음
+        //방법 1. segment마다 레코드가 삽입된 위치를 기억(bit연산 사용가능한지 확인하기 비트로 표현 가능.. 근데 같은 위치에 계속 들어오면?...)
+        //방법 2. segment마다 삽입된 레코드 수만 파악하고, 확률적으로 계산->considerations for handling updates~
 
+        /**
+         * 1. key가 삽입될 segment를 찾는다
+         * 2. segment내에서 삽입될 위치를 찾는다
+         * search 를 어떻게 할 것인가?
+         * 2-1. model-based로 삽입될 위치를 찾고 거기부터 Local search 한다
+         * 2-2. 처음부터 binary search 한다
+         * 2-3. exponential search 한다
+         * 3. 해당 위치를 표시하고 insert한다
+         * insert를 어떻게 할 것인가?
+         * 3-1-1. buffer에 insert하고 표시를 가지고 buffer 내부 위치를 계산한다(이거 가능한가? 근데 버퍼에 넣을거면 내가 생각했던 prediction correction이 필요가 없어지는것 아닌가?)
+         *      -> 원래 array에서 insert되어야 하는 위치보다 앞에있는 비트 1의 수를 세면 버퍼 내부의 위치를 알 수 있을 것 같은데?
+         *      -> 근데 그럼 search할 때 원래 array를 보고서 없는 경우에 추가적으로 버퍼도 참조해야 함. 근데 delta 보단 빠른게 delta는 버퍼 전체에 대한 search를 해야 했음)
+         * 3-1-2. 원래 array에 껴넣고 데이터 전부 다 shift... shift비용은 얼마나 되는지?
+         * 위치 표시는 어떻게 할 것인가?
+         * 3-2-1. 세그먼트마다 비트를 유지한다.
+         * 3-2-2.
+         * 4. 에러 바운드와 버퍼 내부 내용의 병합? 버퍼에 쌓일수록 성능이 저하될 것이고(, 같은 곳에 계속 삽입되면 그걸 표현하기도 힘들고,
+         * 5.
+         */
+    }
     /**
      * Returns the approximate position and the range where @p key can be found.
      * @param key the value of the element to search for

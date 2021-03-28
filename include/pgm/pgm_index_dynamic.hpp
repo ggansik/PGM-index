@@ -67,7 +67,7 @@ class DynamicPGMIndex {
     static uint8_t ceil_log2(size_t n) { return n <= 1 ? 0 : sizeof(unsigned long long) * 8 - __builtin_clzll(n - 1); }
 
     template<bool SkipDeleted, typename In1, typename In2, typename OutIterator>
-    static OutIterator merge(In1 first1, In1 last1, In2 first2, In2 last2, OutIterator result) {
+    static OutIterator merge(In1 first1, In1 last1, In2 first2, In2 last2, OutIterator result) { //두 배열을 merge하는거인듯
         while (first1 != last1 && first2 != last2) {
             if (*first2 < *first1) {
                 *result = *first2;
